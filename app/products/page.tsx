@@ -25,6 +25,7 @@ import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { PageLoader } from "@/components/PageLoader";
+import { motion } from "framer-motion";
 
 const PRODUCTS_PER_PAGE = 10;
 
@@ -275,15 +276,34 @@ export default function ProductsPage() {
                 ) : (
                     <>
                         {/* Products Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-                            {products.map((product) => (
-                                <ProductCard
+                        <motion.div
+                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8"
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                visible: {
+                                    transition: {
+                                        staggerChildren: 0.05,
+                                    },
+                                },
+                            }}
+                        >
+                            {products.map((product, index) => (
+                                <motion.div
                                     key={product.id}
-                                    product={product}
-                                    onDelete={handleDeleteClick}
-                                />
+                                    variants={{
+                                        hidden: { opacity: 0, y: 20 },
+                                        visible: { opacity: 1, y: 0 },
+                                    }}
+                                    transition={{ duration: 0.4, ease: "easeOut" }}
+                                >
+                                    <ProductCard
+                                        product={product}
+                                        onDelete={handleDeleteClick}
+                                    />
+                                </motion.div>
                             ))}
-                        </div>
+                        </motion.div>
 
                         {/* Pagination */}
                         {!searchQuery && products.length >= PRODUCTS_PER_PAGE && (
