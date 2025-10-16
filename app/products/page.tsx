@@ -96,9 +96,12 @@ export default function ProductsPage() {
             }
 
             dispatch(setProducts(data));
-        } catch (err: any) {
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error && 'response' in err 
+              ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+              : undefined;
             dispatch(
-                setError(err.response?.data?.message || "Failed to fetch products")
+                setError(errorMessage || "Failed to fetch products")
             );
         }
     }, [dispatch, isAuthenticated, currentPage, searchQuery, selectedCategory]);
@@ -144,8 +147,11 @@ export default function ProductsPage() {
             await productsApi.deleteProduct(deleteConfirm.product.id);
             dispatch(removeProduct(deleteConfirm.product.id));
             setDeleteConfirm({ isOpen: false, product: null });
-        } catch (err: any) {
-            alert(err.response?.data?.message || "Failed to delete product");
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error && 'response' in err 
+              ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+              : undefined;
+            alert(errorMessage || "Failed to delete product");
         } finally {
             setIsDeleting(false);
         }
@@ -288,7 +294,7 @@ export default function ProductsPage() {
                                 },
                             }}
                         >
-                            {products.map((product, index) => (
+                            {products.map((product) => (
                                 <motion.div
                                     key={product.id}
                                     variants={{

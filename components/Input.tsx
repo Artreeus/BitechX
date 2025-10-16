@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type HTMLMotionProps } from "framer-motion";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends Omit<HTMLMotionProps<"input">, "label"> {
     label?: string;
     error?: string;
     helperText?: string;
@@ -68,4 +68,3 @@ export const Input: React.FC<InputProps> = ({
         </motion.div>
     );
 };
-

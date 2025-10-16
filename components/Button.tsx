@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, type HTMLMotionProps } from "framer-motion";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends HTMLMotionProps<"button"> {
     variant?: "primary" | "secondary" | "danger" | "ghost";
     size?: "sm" | "md" | "lg";
     isLoading?: boolean;
@@ -30,13 +30,13 @@ export const Button: React.FC<ButtonProps> = ({
             "bg-chestnut text-white hover:bg-opacity-90 focus:ring-chestnut",
         ghost:
             "bg-transparent text-hooker-green hover:bg-hooker-green hover:bg-opacity-10 focus:ring-hooker-green border border-hooker-green",
-    };
+    } as const;
 
     const sizes = {
         sm: "px-3 py-1.5 text-sm",
         md: "px-4 py-2 text-base",
         lg: "px-6 py-3 text-lg",
-    };
+    } as const;
 
     return (
         <motion.button
@@ -79,4 +79,3 @@ export const Button: React.FC<ButtonProps> = ({
         </motion.button>
     );
 };
-

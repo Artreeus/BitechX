@@ -59,10 +59,12 @@ export default function LoginPage() {
       const response = await authApi.login(email);
       dispatch(setCredentials({ token: response.token, email }));
       router.push("/products");
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error && 'response' in err 
+        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+        : undefined;
       setError(
-        err.response?.data?.message ||
-        "Failed to login. Please check your email and try again."
+        errorMessage || "Failed to login. Please check your email and try again."
       );
     } finally {
       setIsLoading(false);

@@ -152,9 +152,12 @@ export default function CreateProductPage() {
 
       dispatch(addProduct(newProduct));
       router.push("/products");
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error && 'response' in err 
+        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+        : undefined;
       setApiError(
-        err.response?.data?.message || "Failed to create product. Please try again."
+        errorMessage || "Failed to create product. Please try again."
       );
       setIsSubmitting(false);
     }

@@ -24,9 +24,9 @@ export default function NotFound() {
                     Page Not Found
                 </h2>
                 <p className="text-lg text-anti-flash-white opacity-80 mb-8">
-                    Oops! The page you're looking for seems to have wandered off.
+                    Oops! The page you&apos;re looking for seems to have wandered off.
                     <br />
-                    Don't worry, let's get you back on track.
+                    Don&apos;t worry, let&apos;s get you back on track.
                 </p>
 
                 {/* Action Buttons */}

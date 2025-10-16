@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 
 interface SafeImageProps {
     src: string;
@@ -21,8 +20,6 @@ export const SafeImage: React.FC<SafeImageProps> = ({
     width,
     height,
     className = "",
-    sizes,
-    priority,
 }) => {
     const [imgSrc, setImgSrc] = useState(src);
     const [hasError, setHasError] = useState(false);

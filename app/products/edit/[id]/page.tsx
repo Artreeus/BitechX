@@ -114,8 +114,11 @@ export default function EditProductPage({
           categoryId: foundProduct.category.id,
           images: foundProduct.images.length > 0 ? foundProduct.images : [""],
         });
-      } catch (err: any) {
-        setLoadError(err.response?.data?.message || "Failed to fetch product");
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error && 'response' in err 
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : undefined;
+        setLoadError(errorMessage || "Failed to fetch product");
       } finally {
         setLoading(false);
       }
@@ -199,9 +202,12 @@ export default function EditProductPage({
 
       dispatch(updateProduct(updatedProduct));
       router.push(`/products/${updatedProduct.slug}`);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error && 'response' in err 
+        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+        : undefined;
       setApiError(
-        err.response?.data?.message || "Failed to update product. Please try again."
+        errorMessage || "Failed to update product. Please try again."
       );
       setIsSubmitting(false);
     }
